@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voice Playground</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  #hero {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 650ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* 1. Grain overlay */
+  .grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 200px 200px;
+    background-repeat: repeat;
+  }
+
+  /* 2. Giant ghost text */
+  .ghost {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 18%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(40px, 13vw, 170px);
+    font-weight: 900;
+    color: #ffffff;
+    opacity: 1;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  /* 3. Top-left brand label */
+  .brand {
+    position: absolute;
+    top: 1.5rem;
+    left: 1rem;
+    z-index: 60;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.9;
+    letter-spacing: 0.18em;
+  }
+  @media (min-width: 640px) {
+    .brand { left: 2rem; }
+  }
+
+  /* 4. Carousel */
+  .carousel { position: absolute; inset: 0; z-index: 3; }
+
+  .carousel-item {
+    position: absolute;
+    aspect-ratio: 0.6 / 1;
+    width: auto;
+    transition:
+      transform 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      filter 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      left 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      height 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      bottom 650ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, filter, opacity;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: bottom center;
+  }
+
+  /* 5. Bottom-left text + nav buttons */
+  .bottom-left {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1rem;
+    z-index: 60;
+    max-width: 320px;
+  }
+  @media (min-width: 640px) {
+    .bottom-left { bottom: 5rem; left: 6rem; }
+  }
+
+  .bottom-left .heading {
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: #ffffff;
+    opacity: 0.95;
+    letter-spacing: 0.02em;
+  }
+  @media (min-width: 640px) {
+    .bottom-left .heading { margin-bottom: 0.75rem; font-size: 22px; }
+  }
+
+  .bottom-left .desc {
+    display: none;
+    margin: 0 0 1rem 0;
+    font-size: 0.875rem;
+    color: #ffffff;
+    opacity: 0.85;
+    line-height: 1.6;
+  }
+  @media (min-width: 640px) {
+    .bottom-left .desc { display: block; margin-bottom: 1.25rem; }
+  }
+
+  .nav-buttons { display: flex; gap: 0.75rem; }
+
+  .nav-btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: transparent;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 150ms, background-color 150ms;
+    padding: 0;
+  }
+  @media (min-width: 640px) {
+    .nav-btn { width: 4rem; height: 4rem; }
+  }
+  .nav-btn:hover {
+    transform: scale(1.08);
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  /* 6. Bottom-right link */
+  .discover {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1rem;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(20px, 4vw, 56px);
+    font-weight: 400;
+    color: #ffffff;
+    opacity: 0.95;
+    transition: opacity 200ms;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  @media (min-width: 640px) {
+    .discover { bottom: 5rem; right: 2.5rem; }
+  }
+  .discover:hover { opacity: 1; }
+  .discover svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: 0.5rem;
+    flex-shrink: 0;
+  }
+  @media (min-width: 640px) {
+    .discover svg { width: 2rem; height: 2rem; }
+  }
+</style>
+</head>
+<body>
+<div id="hero">
+  <div class="stage">
+    <div class="grain"></div>
+    <div class="ghost">VOICE PLAYGROUND</div>
+    <div class="brand">TOONHUB</div>
+    <div class="carousel" id="carousel"></div>
+
+    <div class="bottom-left">
+      <p class="heading">Voice Playground is in session.</p>
+      <p class="desc">See what your voice can do!</p>
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </button>
+        <button class="nav-btn" id="nextBtn" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <a class="discover" href="#">
+      DISCOVER IT
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<script>
+  const IMAGES = [
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/1.02464a56.png', bg: '#F4845F', panel: '#F79B7F' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/2.b977faab.png', bg: '#6BBF7A', panel: '#85CC92' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/3.4df853b4.png', bg: '#E882B4', panel: '#ED9DC4' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png', bg: '#6EB5FF', panel: '#8DC4FF' },
+  ];
+
+  let activeIndex = 0;
+  let isAnimating = false;
+  let isMobile = window.innerWidth < 640;
+
+  const hero = document.getElementById('hero');
+  const carousel = document.getElementById('carousel');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  // Preload all 4 images
+  IMAGES.forEach((item) => {
+    const img = new Image();
+    img.src = item.src;
+  });
+
+  // Build carousel items once
+  const items = IMAGES.map((item) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'carousel-item';
+    const el = document.createElement('img');
+    el.src = item.src;
+    el.draggable = false;
+    wrap.appendChild(el);
+    carousel.appendChild(wrap);
+    return wrap;
+  });
+
+  function getRole(i) {
+    const center = activeIndex;
+    const left = (activeIndex + 3) % 4;
+    const right = (activeIndex + 1) % 4;
+    if (i === center) return 'center';
+    if (i === left) return 'left';
+    if (i === right) return 'right';
+    return 'back';
+  }
+
+  function roleStyle(role) {
+    switch (role) {
+      case 'center':
+        return {
+          transform: `translateX(-50%) scale(${isMobile ? 1.25 : 1.68})`,
+          filter: 'blur(0px)',
+          opacity: '1',
+          zIndex: '20',
+          left: '50%',
+          height: isMobile ? '60%' : '92%',
+          bottom: isMobile ? '22%' : '0',
+        };
+      case 'left':
+        return {
+          transform: 'translateX(-50%) scale(1)',
+          filter: 'blur(2px)',
+          opacity: '0.85',
+          zIndex: '10',
+          left: isMobile ? '20%' : '30%',
+          height: isMobile ? '16%' : '28%',
+          bottom: isMobile ? '32%' : '12%',
+        };
+      case 'right':
+        return {
+          transform: 'translateX(-50%) scale(1)',
+          filter: 'blur(2px)',
+          opacity: '0.85',
+          zIndex: '10',
+          left: isMobile ? '80%' : '70%',
+          height: isMobile ? '16%' : '28%',
+          bottom: isMobile ? '32%' : '12%',
+        };
+      default: // back
+        return {
+          transform: 'translateX(-50%) scale(1)',
+          filter: 'blur(4px)',
+          opacity: '1',
+          zIndex: '5',
+          left: '50%',
+          height: isMobile ? '13%' : '22%',
+          bottom: isMobile ? '32%' : '12%',
+        };
+    }
+  }
+
+  function render() {
+    hero.style.backgroundColor = IMAGES[activeIndex].bg;
+    items.forEach((el, i) => {
+      const style = roleStyle(getRole(i));
+      Object.assign(el.style, style);
+    });
+  }
+
+  function navigate(direction) {
+    if (isAnimating) return;
+    isAnimating = true;
+    activeIndex = direction === 'next'
+      ? (activeIndex + 1) % 4
+      : (activeIndex + 3) % 4;
+    render();
+    setTimeout(() => { isAnimating = false; }, 650);
+  }
+
+  prevBtn.addEventListener('click', () => navigate('prev'));
+  nextBtn.addEventListener('click', () => navigate('next'));
+
+  window.addEventListener('resize', () => {
+    const wasMobile = isMobile;
+    isMobile = window.innerWidth < 640;
+    if (wasMobile !== isMobile) render();
+  });
+
+  render();
+</script>
+</body>
+</html>

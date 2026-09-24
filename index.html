@@ -10,12 +10,34 @@
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  :root {
+    --pink: #E882B4;
+    --pink-deep: #C2478A;
+    --ink: #18151B;
+    --ink-soft: #4a4550;
+    --cream: #FFFDFB;
+    --blue: #6EB5FF;
+    --green: #6BBF7A;
+    --orange: #F4845F;
+    --content-max: 900px;
+    --content-max-wide: 1180px;
+    --section-pad-x: clamp(1.25rem, 6vw, 6rem);
+    --section-pad-y: clamp(3.5rem, 9vw, 6rem);
+    --section-pad-y-end: clamp(4.5rem, 11vw, 7.5rem);
+    --kicker-mb: clamp(1.25rem, 3vw, 2rem);
+    --headline-mb: clamp(1.5rem, 4vw, 2.5rem);
+    --gap-md: clamp(1.5rem, 4vw, 2.25rem);
+    --gap-lg: clamp(2rem, 5vw, 3rem);
+  }
 
   #hero {
     position: relative;
     width: 100%;
     overflow: hidden;
     font-family: 'Inter', sans-serif;
+    background-color: #E882B4;
     transition: background-color 650ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -45,51 +67,37 @@
     right: 0;
     top: 18%;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: baseline;
     justify-content: center;
+    column-gap: 0.3em;
+    row-gap: 0.05em;
+    padding: 0 0.5rem;
     pointer-events: none;
     user-select: none;
     z-index: 2;
     font-family: 'Anton', sans-serif;
-    font-size: clamp(40px, 13vw, 170px);
+    font-size: clamp(59px, 12.6vw, 231px);
     font-weight: 900;
     color: #ffffff;
     opacity: 1;
     line-height: 1;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-    white-space: nowrap;
+    text-align: center;
   }
 
-  /* 3. Top-left brand label */
-  .brand {
-    position: absolute;
-    top: 1.5rem;
-    left: 1rem;
-    z-index: 60;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #ffffff;
-    opacity: 0.9;
-    letter-spacing: 0.18em;
-  }
-  @media (min-width: 640px) {
-    .brand { left: 2rem; }
-  }
-
-  /* 4. Carousel */
+  /* 4. Carousel (left, center, right, back roles) */
   .carousel { position: absolute; inset: 0; z-index: 3; }
 
   .carousel-item {
     position: absolute;
-    aspect-ratio: 0.6 / 1;
-    width: auto;
     transition:
       transform 650ms cubic-bezier(0.4, 0, 0.2, 1),
       filter 650ms cubic-bezier(0.4, 0, 0.2, 1),
       opacity 650ms cubic-bezier(0.4, 0, 0.2, 1),
       left 650ms cubic-bezier(0.4, 0, 0.2, 1),
+      width 650ms cubic-bezier(0.4, 0, 0.2, 1),
       height 650ms cubic-bezier(0.4, 0, 0.2, 1),
       bottom 650ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform, filter, opacity;
@@ -102,41 +110,19 @@
     object-position: bottom center;
   }
 
-  /* 5. Bottom-left text + nav buttons */
-  .bottom-left {
+  /* 5. Bottom row: nav controls + copy block, centered on the CTA line */
+  .hero-bottom-row {
     position: absolute;
-    bottom: 1.5rem;
     left: 1rem;
+    right: 1.25rem;
+    bottom: 1.75rem;
     z-index: 60;
-    max-width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
   @media (min-width: 640px) {
-    .bottom-left { bottom: 5rem; left: 6rem; }
-  }
-
-  .bottom-left .heading {
-    margin: 0 0 0.5rem 0;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 1rem;
-    color: #ffffff;
-    opacity: 0.95;
-    letter-spacing: 0.02em;
-  }
-  @media (min-width: 640px) {
-    .bottom-left .heading { margin-bottom: 0.75rem; font-size: 22px; }
-  }
-
-  .bottom-left .desc {
-    display: none;
-    margin: 0 0 1rem 0;
-    font-size: 0.875rem;
-    color: #ffffff;
-    opacity: 0.85;
-    line-height: 1.6;
-  }
-  @media (min-width: 640px) {
-    .bottom-left .desc { display: block; margin-bottom: 1.25rem; }
+    .hero-bottom-row { left: 6rem; right: 3rem; bottom: 5.5rem; }
   }
 
   .nav-buttons { display: flex; gap: 0.75rem; }
@@ -163,16 +149,40 @@
     background-color: rgba(255, 255, 255, 0.12);
   }
 
-  /* 6. Bottom-right link */
-  .discover {
-    position: absolute;
-    bottom: 1.5rem;
-    right: 1rem;
+  /* 6. Bottom-right copy + CTA */
+  .hero-cta {
+    position: relative;
     z-index: 60;
+  }
+
+  .hero-kicker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    bottom: calc(100% + 0.2rem);
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12px, 1.4vw, 21px);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+  @media (min-width: 640px) {
+    .hero-kicker {
+      right: auto;
+      width: max-content;
+      max-width: 220%;
+    }
+  }
+
+  .discover {
     display: flex;
     align-items: center;
     font-family: 'Anton', sans-serif;
-    font-size: clamp(20px, 4vw, 56px);
+    font-size: clamp(24px, 5vw, 64px);
     font-weight: 400;
     color: #ffffff;
     opacity: 0.95;
@@ -181,19 +191,663 @@
     line-height: 1;
     text-transform: uppercase;
     text-decoration: none;
-  }
-  @media (min-width: 640px) {
-    .discover { bottom: 5rem; right: 2.5rem; }
+    cursor: pointer;
   }
   .discover:hover { opacity: 1; }
-  .discover svg {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-left: 0.5rem;
-    flex-shrink: 0;
+
+  /* 7. Explain section */
+  .explain {
+    position: relative;
+    width: 100%;
+    background-color: var(--cream);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .explain-inner {
+    max-width: var(--content-max-wide);
+    margin: 0 auto;
+  }
+
+  .explain-headline {
+    margin: 0 0 var(--headline-mb);
+    max-width: 15ch;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(34px, 7vw, 90px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .explain-body p {
+    max-width: 58ch;
+    margin: 0 0 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .explain-body .lede {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .explain-emphasis {
+    max-width: 18ch;
+    margin: var(--gap-md) 0 var(--gap-lg);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(26px, 5vw, 52px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--pink-deep);
+  }
+
+  .activity-words {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    row-gap: 1rem;
+    column-gap: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .activity-words .word {
+    display: inline-block;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .activity-words .word:nth-child(1) { font-size: clamp(26px, 5vw, 54px); transform: rotate(-3deg); }
+  .activity-words .word:nth-child(2) { font-size: clamp(20px, 3.6vw, 38px); color: var(--pink-deep); transform: rotate(2deg); }
+  .activity-words .word:nth-child(3) { font-size: clamp(28px, 5.6vw, 58px); transform: rotate(1.5deg); }
+  .activity-words .word:nth-child(4) { font-size: clamp(17px, 2.8vw, 30px); color: var(--pink-deep); transform: rotate(-1.5deg); }
+  .activity-words .word:nth-child(5) { font-size: clamp(24px, 4.4vw, 46px); transform: rotate(3deg); }
+  .activity-words .word:nth-child(6) { font-size: clamp(18px, 3vw, 32px); color: var(--pink-deep); transform: rotate(-2deg); }
+
+  /* 8. Relate section */
+  .relate {
+    position: relative;
+    width: 100%;
+    background-color: var(--blue);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .relate-inner { max-width: var(--content-max); margin: 0 auto; }
+
+  .relate-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  .relate-lead {
+    margin: 0 0 var(--headline-mb);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(28px, 5.5vw, 56px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .relate-intro {
+    margin: 0 0 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--ink);
+  }
+
+  .maybe-list { margin: 0 0 var(--gap-lg); }
+
+  .maybe-list p {
+    position: relative;
+    margin: 0 0 1rem;
+    padding-left: 1.5rem;
+    max-width: 46ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(17px, 2.2vw, 22px);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .maybe-list p::before {
+    content: "\2014";
+    position: absolute;
+    left: 0;
+    color: var(--ink);
+    opacity: 0.55;
+    font-weight: 700;
   }
   @media (min-width: 640px) {
-    .discover svg { width: 2rem; height: 2rem; }
+    .maybe-list p:nth-child(2n) { margin-left: 1.75rem; }
+    .maybe-list p:nth-child(3n) { margin-left: 3rem; }
+  }
+
+  .no-need p {
+    margin: 0 0 0.4rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .no-need p:nth-child(1) { font-size: clamp(17px, 2.2vw, 22px); opacity: 0.7; }
+  .no-need p:nth-child(2) { font-size: clamp(19px, 2.6vw, 26px); opacity: 0.85; }
+  .no-need p.final {
+    margin-top: 0.6rem;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    font-size: clamp(30px, 6vw, 60px);
+    color: var(--ink);
+    opacity: 1;
+  }
+
+  /* 9. Play section */
+  .play {
+    position: relative;
+    width: 100%;
+    background-color: var(--ink);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .play-inner { max-width: var(--content-max-wide); margin: 0 auto; }
+
+  .play-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.7;
+  }
+
+  .play-headline {
+    margin: 0 0 var(--headline-mb);
+    max-width: 16ch;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 6.6vw, 78px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .play-intro {
+    margin: 0 0 var(--gap-lg);
+    max-width: 46ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(17px, 2.2vw, 22px);
+    line-height: 1.6;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+
+  .experiences { display: flex; flex-direction: column; }
+
+  .experience {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: clamp(1rem, 4vw, 3rem);
+    row-gap: 0.5rem;
+    padding: clamp(1.125rem, 3vw, 1.75rem) 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .experiences .experience:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.18); }
+
+  .experience .name {
+    flex: 0 0 auto;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    color: var(--pink);
+    font-size: clamp(32px, 6vw, 64px);
+  }
+
+  .experience .detail {
+    flex: 1 1 280px;
+    max-width: 40ch;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(16px, 2vw, 19px);
+    line-height: 1.55;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+
+  .experience:nth-child(even) { flex-direction: row-reverse; text-align: right; }
+  .experience:nth-child(even) .detail { text-align: right; margin-left: auto; }
+
+  @media (max-width: 639px) {
+    .experience,
+    .experience:nth-child(even) {
+      flex-direction: column;
+      text-align: left;
+    }
+    .experience:nth-child(even) .detail { text-align: left; margin-left: 0; }
+  }
+
+  .play-closing {
+    margin: var(--gap-lg) 0 0;
+    max-width: 34ch;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    font-size: clamp(22px, 4vw, 40px);
+    color: #ffffff;
+  }
+  .play-closing span { color: var(--pink); }
+
+  /* 10. Leave-with section */
+  .leave {
+    position: relative;
+    width: 100%;
+    background-color: var(--orange);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .leave-inner { max-width: var(--content-max); margin: 0 auto; }
+
+  .leave-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  .leave-headline {
+    margin: 0 0 var(--headline-mb);
+    max-width: 16ch;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 6.6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .leave-lines p {
+    margin: 0 0 0.4rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .leave-lines p:nth-child(1) { font-size: clamp(17px, 2.2vw, 22px); opacity: 0.7; }
+  .leave-lines p:nth-child(2) { font-size: clamp(19px, 2.6vw, 26px); opacity: 0.85; }
+  .leave-lines p:nth-child(3) { font-size: clamp(21px, 3vw, 30px); opacity: 1; }
+
+  .leave-final {
+    margin: var(--gap-lg) 0 0;
+    max-width: 22ch;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    font-size: clamp(24px, 4.4vw, 44px);
+    color: rgba(24, 21, 27, 0.6);
+  }
+  .leave-final span { display: block; color: var(--ink); }
+
+  /* 11. Proof section */
+  .proof {
+    position: relative;
+    width: 100%;
+    background-color: var(--green);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .proof-inner { max-width: var(--content-max-wide); margin: 0 auto; }
+
+  .proof-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  .proof-headline {
+    margin: 0 0 var(--gap-lg);
+    max-width: 16ch;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 6.6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .testimonials {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 4rem);
+  }
+  @media (min-width: 800px) {
+    .testimonials {
+      grid-template-columns: 1fr 1fr;
+      column-gap: clamp(3rem, 6vw, 5rem);
+      row-gap: clamp(3rem, 6vw, 5rem);
+    }
+    .testimonials .testimonial:nth-child(even) { margin-top: clamp(1.5rem, 4vw, 3rem); }
+  }
+
+  .testimonial { margin: 0; }
+
+  .testimonial .quote {
+    margin: 0 0 0.75rem;
+    max-width: 28ch;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(22px, 3.4vw, 32px);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .testimonial .name {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.65;
+  }
+
+  /* 12. About section */
+  .about {
+    position: relative;
+    width: 100%;
+    background-color: var(--pink);
+    padding: var(--section-pad-y) var(--section-pad-x);
+  }
+
+  .about-inner {
+    max-width: var(--content-max-wide);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gap-lg);
+  }
+  @media (min-width: 800px) {
+    .about-inner {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: clamp(3rem, 6vw, 5rem);
+    }
+  }
+
+  .about-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+
+  .about-headline {
+    margin: 0 0 var(--headline-mb);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(34px, 6.4vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .about-body p {
+    margin: 0 0 1.1rem;
+    max-width: 46ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(16px, 2vw, 19px);
+    line-height: 1.6;
+    color: #ffffff;
+    opacity: 0.92;
+  }
+  .about-body p:last-child {
+    margin-bottom: 0;
+    font-weight: 700;
+    opacity: 1;
+  }
+
+  .about-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+  }
+  .about-photo span {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.75;
+  }
+
+  /* 13. Info / FAQ section */
+  .info {
+    position: relative;
+    width: 100%;
+    background-color: var(--cream);
+    padding: clamp(3rem, 7vw, 5rem) var(--section-pad-x);
+  }
+
+  .info-inner { max-width: var(--content-max); margin: 0 auto; }
+
+  .info-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.7;
+  }
+
+  .info-headline {
+    margin: 0 0 var(--headline-mb);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 6.6vw, 76px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .facts {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 var(--gap-lg);
+    border-top: 1px solid rgba(24, 21, 27, 0.15);
+  }
+  .fact {
+    padding: clamp(0.75rem, 2vw, 1.125rem) 0;
+    border-bottom: 1px solid rgba(24, 21, 27, 0.15);
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: clamp(20px, 3.4vw, 34px);
+    color: var(--ink);
+  }
+  .fact.price {
+    font-size: clamp(24px, 4vw, 40px);
+    color: var(--pink-deep);
+  }
+
+  .faq { border-top: 1px solid rgba(24, 21, 27, 0.15); }
+
+  .faq-item {
+    padding: clamp(1rem, 2.5vw, 1.375rem) 0;
+    border-bottom: 1px solid rgba(24, 21, 27, 0.15);
+  }
+  .faq-item summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    flex-shrink: 0;
+    font-family: 'Anton', sans-serif;
+    font-size: 1.4em;
+    line-height: 1;
+    color: var(--pink-deep);
+  }
+  .faq-item[open] summary::after { content: "\2212"; }
+  .faq-item p {
+    margin: 0.75rem 0 0;
+    max-width: 60ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* 14. Register / final CTA section */
+  .register {
+    position: relative;
+    width: 100%;
+    background-color: var(--pink);
+    padding: var(--section-pad-y-end) var(--section-pad-x);
+  }
+
+  .register-inner { max-width: var(--content-max); margin: 0 auto; }
+
+  .register-kicker {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+
+  .register-headline {
+    margin: 0 0 var(--gap-lg);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(48px, 12vw, 140px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+
+  .register-body {
+    margin: 0 0 clamp(2rem, 5vw, 2.5rem);
+    max-width: 48ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(16px, 2vw, 20px);
+    line-height: 1.6;
+    color: #ffffff;
+    opacity: 0.92;
+  }
+
+  .register-price {
+    margin: 0 0 clamp(2.5rem, 6vw, 3.5rem);
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .register-price .amount {
+    display: block;
+    font-size: clamp(30px, 6vw, 56px);
+    color: #ffffff;
+    line-height: 1.15;
+  }
+  .register-price .limit {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(14px, 1.8vw, 17px);
+    text-transform: none;
+    letter-spacing: normal;
+    color: #ffffff;
+    opacity: 0.85;
+  }
+
+  .register-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 0 clamp(1.75rem, 4vw, 2.25rem);
+    padding: clamp(1rem, 2.4vw, 1.375rem) clamp(1.75rem, 4vw, 2.5rem);
+    background-color: #18151B;
+    color: #ffffff;
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: clamp(18px, 2.6vw, 26px);
+    text-decoration: none;
+    transition: transform 150ms, background-color 150ms;
+  }
+  .register-cta:hover { transform: scale(1.03); background-color: #000000; }
+
+  .register-instructions {
+    margin: 0 0 0.75rem;
+    max-width: 44ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(15px, 1.8vw, 18px);
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .register-note {
+    margin: 0;
+    max-width: 44ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #ffffff;
+    opacity: 0.75;
   }
 </style>
 </head>
@@ -201,58 +855,52 @@
 <div id="hero">
   <div class="stage">
     <div class="grain"></div>
-    <div class="ghost">VOICE PLAYGROUND</div>
-    <div class="brand">TOONHUB</div>
+    <div class="ghost"><span class="ghost-word">Voice</span><span class="ghost-word">Playground</span></div>
     <div class="carousel" id="carousel"></div>
 
-    <div class="bottom-left">
-      <p class="heading">Voice Playground is in session.</p>
-      <p class="desc">See what your voice can do!</p>
+    <div class="hero-bottom-row">
       <div class="nav-buttons">
-        <button class="nav-btn" id="prevBtn" aria-label="Previous">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous character">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
         </button>
-        <button class="nav-btn" id="nextBtn" aria-label="Next">
+        <button class="nav-btn" id="nextBtn" aria-label="Next character">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
       </div>
-    </div>
 
-    <a class="discover" href="#">
-      DISCOVER IT
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-    </a>
+      <div class="hero-cta">
+        <p class="hero-kicker">What else can your voice do?</p>
+        <a class="discover" href="#next-section">LET&rsquo;S FIND OUT</a>
+      </div>
+    </div>
   </div>
 </div>
-
 <script>
-  const IMAGES = [
-    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/1.02464a56.png', bg: '#F4845F', panel: '#F79B7F' },
-    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/2.b977faab.png', bg: '#6BBF7A', panel: '#85CC92' },
-    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/3.4df853b4.png', bg: '#E882B4', panel: '#ED9DC4' },
-    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png', bg: '#6EB5FF', panel: '#8DC4FF' },
+  var IMAGES = [
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/3.4df853b4.png', bg: '#E882B4' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/4.4457fbce.png', bg: '#6EB5FF' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/1.02464a56.png', bg: '#F4845F' },
+    { src: 'https://fifth-gentle-45902158.figma.site/_components/v2/4de492f6d9cf8244ad5293233e5c6f52407d42fc/2.b977faab.png', bg: '#6BBF7A' }
   ];
 
-  let activeIndex = 0;
-  let isAnimating = false;
-  let isMobile = window.innerWidth < 640;
+  var activeIndex = 0;
+  var isAnimating = false;
+  var isMobile = window.innerWidth < 640;
 
-  const hero = document.getElementById('hero');
-  const carousel = document.getElementById('carousel');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
+  var heroEl = document.getElementById('hero');
+  var carousel = document.getElementById('carousel');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
 
-  // Preload all 4 images
-  IMAGES.forEach((item) => {
-    const img = new Image();
+  IMAGES.forEach(function (item) {
+    var img = new Image();
     img.src = item.src;
   });
 
-  // Build carousel items once
-  const items = IMAGES.map((item) => {
-    const wrap = document.createElement('div');
+  var items = IMAGES.map(function (item) {
+    var wrap = document.createElement('div');
     wrap.className = 'carousel-item';
-    const el = document.createElement('img');
+    var el = document.createElement('img');
     el.src = item.src;
     el.draggable = false;
     wrap.appendChild(el);
@@ -261,9 +909,9 @@
   });
 
   function getRole(i) {
-    const center = activeIndex;
-    const left = (activeIndex + 3) % 4;
-    const right = (activeIndex + 1) % 4;
+    var center = activeIndex;
+    var left = (activeIndex + 3) % 4;
+    var right = (activeIndex + 1) % 4;
     if (i === center) return 'center';
     if (i === left) return 'left';
     if (i === right) return 'right';
@@ -274,13 +922,14 @@
     switch (role) {
       case 'center':
         return {
-          transform: `translateX(-50%) scale(${isMobile ? 1.25 : 1.68})`,
+          transform: 'translateX(-50%) scale(' + (isMobile ? 1.25 : 1.68) + ')',
           filter: 'blur(0px)',
           opacity: '1',
           zIndex: '20',
           left: '50%',
+          width: isMobile ? '36vh' : '55.2vh',
           height: isMobile ? '60%' : '92%',
-          bottom: isMobile ? '22%' : '0',
+          bottom: isMobile ? '22%' : '0'
         };
       case 'left':
         return {
@@ -289,8 +938,9 @@
           opacity: '0.85',
           zIndex: '10',
           left: isMobile ? '20%' : '30%',
+          width: isMobile ? '9.6vh' : '16.8vh',
           height: isMobile ? '16%' : '28%',
-          bottom: isMobile ? '32%' : '12%',
+          bottom: isMobile ? '32%' : '12%'
         };
       case 'right':
         return {
@@ -299,50 +949,244 @@
           opacity: '0.85',
           zIndex: '10',
           left: isMobile ? '80%' : '70%',
+          width: isMobile ? '9.6vh' : '16.8vh',
           height: isMobile ? '16%' : '28%',
-          bottom: isMobile ? '32%' : '12%',
+          bottom: isMobile ? '32%' : '12%'
         };
-      default: // back
+      default:
         return {
           transform: 'translateX(-50%) scale(1)',
           filter: 'blur(4px)',
           opacity: '1',
           zIndex: '5',
           left: '50%',
+          width: isMobile ? '7.8vh' : '13.2vh',
           height: isMobile ? '13%' : '22%',
-          bottom: isMobile ? '32%' : '12%',
+          bottom: isMobile ? '32%' : '12%'
         };
     }
   }
 
   function render() {
-    hero.style.backgroundColor = IMAGES[activeIndex].bg;
-    items.forEach((el, i) => {
-      const style = roleStyle(getRole(i));
-      Object.assign(el.style, style);
+    heroEl.style.backgroundColor = IMAGES[activeIndex].bg;
+    items.forEach(function (el, i) {
+      Object.assign(el.style, roleStyle(getRole(i)));
     });
   }
 
   function navigate(direction) {
     if (isAnimating) return;
     isAnimating = true;
-    activeIndex = direction === 'next'
-      ? (activeIndex + 1) % 4
-      : (activeIndex + 3) % 4;
+    activeIndex = direction === 'next' ? (activeIndex + 1) % 4 : (activeIndex + 3) % 4;
     render();
-    setTimeout(() => { isAnimating = false; }, 650);
+    setTimeout(function () { isAnimating = false; }, 650);
   }
 
-  prevBtn.addEventListener('click', () => navigate('prev'));
-  nextBtn.addEventListener('click', () => navigate('next'));
+  prevBtn.addEventListener('click', function () { navigate('prev'); });
+  nextBtn.addEventListener('click', function () { navigate('next'); });
 
-  window.addEventListener('resize', () => {
-    const wasMobile = isMobile;
+  window.addEventListener('resize', function () {
+    var wasMobile = isMobile;
     isMobile = window.innerWidth < 640;
     if (wasMobile !== isMobile) render();
   });
 
   render();
+
+  var ghostEl = document.querySelector('.ghost');
+  var ghostWords = document.querySelectorAll('.ghost-word');
+  function fitGhost() {
+    ghostEl.style.fontSize = '';
+    var natural = parseFloat(getComputedStyle(ghostEl).fontSize);
+    var maxAllowed = window.innerWidth * 0.92;
+    var scale = 1;
+    ghostWords.forEach(function (w) {
+      var width = w.getBoundingClientRect().width;
+      if (width > maxAllowed) {
+        scale = Math.min(scale, maxAllowed / width);
+      }
+    });
+    if (scale < 1) {
+      ghostEl.style.fontSize = (natural * scale) + 'px';
+    }
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitGhost);
+  }
+  window.addEventListener('load', fitGhost);
+  window.addEventListener('resize', fitGhost);
+  fitGhost();
 </script>
+<section class="explain" id="next-section">
+  <div class="explain-inner">
+    <h2 class="explain-headline">Your voice can do more than you think.</h2>
+    <div class="explain-body">
+      <p>Voice Playground is a live, small-group online workshop where you get to read, act, experiment, play, take direction, and try again—while discovering different ways to use your voice.</p>
+      <p class="lede">No long lectures. No pressure to sound &ldquo;professional.&rdquo;</p>
+    </div>
+    <p class="explain-emphasis">You learn by actually using your voice.</p>
+    <div class="activity-words">
+      <span class="word">Commercials</span>
+      <span class="word">Stories</span>
+      <span class="word">Characters</span>
+      <span class="word">Creator reads</span>
+      <span class="word">Narration</span>
+      <span class="word">Announcements</span>
+    </div>
+  </div>
+</section>
+<section class="relate">
+  <div class="relate-inner">
+    <p class="relate-kicker">Maybe this is you.</p>
+    <p class="relate-lead">You know you have a voice.<br>You just don&rsquo;t always know what to do with it.</p>
+    <p class="relate-intro">Maybe you&hellip;</p>
+    <div class="maybe-list">
+      <p>overthink how you sound when you speak or record yourself</p>
+      <p>feel awkward, stiff, or too &ldquo;scripted&rdquo; when reading out loud</p>
+      <p>want to sound more natural and expressive</p>
+      <p>are curious about voice acting and want a low-pressure place to try it</p>
+      <p>use your voice for work, content, teaching, presenting, or creating</p>
+      <p>simply want to loosen up, play, and discover what else your voice can do</p>
+    </div>
+    <div class="no-need">
+      <p>You don&rsquo;t need a &ldquo;good voice.&rdquo;</p>
+      <p>You don&rsquo;t need voiceover experience.</p>
+      <p class="final">You just need to be willing to play.</p>
+    </div>
+  </div>
+</section>
+<section class="play">
+  <div class="play-inner">
+    <p class="play-kicker">What happens in the playground?</p>
+    <h2 class="play-headline">Come in. We&rsquo;re going to play.</h2>
+    <p class="play-intro">For three hours, we experiment with your voice by actually using it.</p>
+    <div class="experiences">
+      <div class="experience">
+        <span class="name">Warm up</span>
+        <span class="detail">Get out of your head, loosen up, and get comfortable making sound.</span>
+      </div>
+      <div class="experience">
+        <span class="name">Read</span>
+        <span class="detail">Try different kinds of scripts&mdash;from stories and commercials to characters, creator reads, and more.</span>
+      </div>
+      <div class="experience">
+        <span class="name">Play</span>
+        <span class="detail">Change the intention. The emotion. The pace. The energy. Same words. Completely different read.</span>
+      </div>
+      <div class="experience">
+        <span class="name">Get directed</span>
+        <span class="detail">Try a take, get direction, then try it again and notice what changes.</span>
+      </div>
+      <div class="experience">
+        <span class="name">Discover</span>
+        <span class="detail">Notice what comes naturally, what surprises you, and what else your voice might be capable of.</span>
+      </div>
+    </div>
+    <p class="play-closing">There&rsquo;s no one &ldquo;correct&rdquo; voice we&rsquo;re trying to find. <span>We&rsquo;re giving you more ways to use the one you already have.</span></p>
+  </div>
+</section>
+<section class="leave">
+  <div class="leave-inner">
+    <p class="leave-kicker">What do you leave with?</p>
+    <h2 class="leave-headline">More ways to use your voice.</h2>
+    <div class="leave-lines">
+      <p>More confidence to experiment.</p>
+      <p>More freedom to make different choices.</p>
+      <p>More awareness of what your voice can do.</p>
+    </div>
+    <p class="leave-final">And most importantly&mdash;<span>the experience of actually trying.</span></p>
+  </div>
+</section>
+<section class="proof">
+  <div class="proof-inner">
+    <p class="proof-kicker">From the playground</p>
+    <h2 class="proof-headline">What the players say.</h2>
+    <div class="testimonials">
+      <blockquote class="testimonial">
+        <p class="quote">&ldquo;Participant quote goes here.&rdquo;</p>
+        <p class="name">&mdash; Participant Name</p>
+      </blockquote>
+      <blockquote class="testimonial">
+        <p class="quote">&ldquo;Participant quote goes here.&rdquo;</p>
+        <p class="name">&mdash; Participant Name</p>
+      </blockquote>
+      <blockquote class="testimonial">
+        <p class="quote">&ldquo;Participant quote goes here.&rdquo;</p>
+        <p class="name">&mdash; Participant Name</p>
+      </blockquote>
+      <blockquote class="testimonial">
+        <p class="quote">&ldquo;Participant quote goes here.&rdquo;</p>
+        <p class="name">&mdash; Participant Name</p>
+      </blockquote>
+    </div>
+  </div>
+</section>
+<section class="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <p class="about-kicker">Your playground guide</p>
+      <h2 class="about-headline">Hi, I&rsquo;m Kahna.</h2>
+      <div class="about-body">
+        <p>I&rsquo;ve been working professionally as a Filipino voice actor since 2005&mdash;and I&rsquo;ve spent years acting, hosting, teaching, and facilitating people through play.</p>
+        <p>Voice Playground brings those worlds together.</p>
+        <p>I&rsquo;m not here to teach you one &ldquo;right&rdquo; way to sound.<br>I&rsquo;m here to give you a safe place to try.</p>
+      </div>
+    </div>
+    <div class="about-photo">
+      <span>Photo of Kahna</span>
+    </div>
+  </div>
+</section>
+<section class="info">
+  <div class="info-inner">
+    <p class="info-kicker">The details</p>
+    <h2 class="info-headline">Ready to play?</h2>
+    <div class="facts">
+      <p class="fact">Live on Zoom</p>
+      <p class="fact">3 hours</p>
+      <p class="fact">Small group</p>
+      <p class="fact price">&#8369;1,499 per person</p>
+    </div>
+    <div class="faq">
+      <details class="faq-item">
+        <summary>Do I need voiceover experience?</summary>
+        <p>Nope. Voice Playground is beginner-friendly.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need a &ldquo;good&rdquo; voice?</summary>
+        <p>No. You&rsquo;re here to explore the voice you already have.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Will I have to participate?</summary>
+        <p>Yes&mdash;this is a playground, not a webinar. Expect to read, experiment, and play.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What do I need?</summary>
+        <p>A laptop or tablet, earphones, stable internet, and a space where you&rsquo;re comfortable using your voice.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is this a professional voiceover course?</summary>
+        <p>No. This is a playful introduction to using your voice with more range, expression, and confidence.</p>
+      </details>
+    </div>
+  </div>
+</section>
+<section class="register" id="register">
+  <div class="register-inner">
+    <p class="register-kicker">Your turn.</p>
+    <h2 class="register-headline">Come play.</h2>
+    <p class="register-body">Join the next Voice Playground&mdash;a live, 3-hour small-group session where you can explore, experiment, and see what your voice can do.</p>
+    <p class="register-price">
+      <span class="amount">&#8369;1,499 per person</span>
+      <span class="limit">Limited to 5&ndash;6 players per batch.</span>
+    </p>
+    <a class="register-cta" href="#register">
+      Join the next playground
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+    <p class="register-instructions">Choose your preferred batch and leave your name and email to register.</p>
+    <p class="register-note">Your slot is confirmed once payment is received.</p>
+  </div>
+</section>
 </body>
 </html>

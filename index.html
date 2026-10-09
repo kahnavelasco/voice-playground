@@ -182,9 +182,8 @@
   .discover {
     display: flex;
     align-items: center;
-    gap: clamp(0.6rem, 1.6vw, 1.1rem);
     font-family: 'Anton', sans-serif;
-    font-size: clamp(20px, 4.2vw, 52px);
+    font-size: clamp(23px, 4.9vw, 61px);
     font-weight: 400;
     color: #ffffff;
     opacity: 0.95;
@@ -196,23 +195,6 @@
     cursor: pointer;
   }
   .discover:hover { opacity: 1; }
-
-  .play-btn {
-    flex-shrink: 0;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: transparent;
-    border: 2px solid #ffffff;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  @media (min-width: 640px) {
-    .play-btn { width: 4rem; height: 4rem; }
-  }
-  .play-btn svg { width: 34px; height: 38px; transform: translateX(4%); }
 
   /* 7. Explain section */
   .explain {
@@ -622,6 +604,12 @@
     opacity: 0.75;
   }
 
+  .email-link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
   .batch-cta {
     display: inline-flex;
     align-self: flex-start;
@@ -729,7 +717,7 @@
   }
 
   .register-price {
-    margin: 0 0 clamp(2.5rem, 6vw, 3.5rem);
+    margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
     font-family: 'Anton', sans-serif;
     text-transform: uppercase;
     letter-spacing: -0.01em;
@@ -756,7 +744,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
-    margin: 0 0 clamp(1.75rem, 4vw, 2.25rem);
+    margin: 0 0 0.625rem;
     padding: clamp(1.1rem, 2.6vw, 1.5rem) clamp(1.75rem, 4vw, 2.5rem);
     background-color: #18151B;
     color: #ffffff;
@@ -781,7 +769,7 @@
   }
 
   .register-note {
-    margin: 0;
+    margin: 0 0 0.75rem;
     max-width: 44ch;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
@@ -839,12 +827,7 @@
 
       <div class="hero-cta">
         <p class="hero-kicker"><span class="hero-kicker-text">What else can your voice do?</span></p>
-        <a class="discover" href="#next-section">
-          LET&rsquo;S FIND OUT
-          <span class="play-btn" aria-hidden="true">
-            <svg viewBox="0 0 24 28" width="34" height="38"><path d="M2 2 L2 26 L22 14 Z" fill="currentColor"/></svg>
-          </span>
-        </a>
+        <a class="discover" href="#next-section">LET&rsquo;S FIND OUT</a>
       </div>
     </div>
   </div>
@@ -901,7 +884,7 @@
           opacity: '1',
           zIndex: '20',
           left: '50%',
-          width: isMobile ? '36vh' : '55.2vh',
+          width: isMobile ? '36vh' : 'min(55.2vh, 42vw)',
           height: isMobile ? '60%' : '92%',
           bottom: isMobile ? '22%' : '0'
         };
@@ -912,7 +895,7 @@
           opacity: '0.85',
           zIndex: '10',
           left: isMobile ? '20%' : '30%',
-          width: isMobile ? '9.6vh' : '16.8vh',
+          width: isMobile ? '9.6vh' : 'min(16.8vh, 12.8vw)',
           height: isMobile ? '16%' : '28%',
           bottom: isMobile ? '32%' : '12%'
         };
@@ -923,7 +906,7 @@
           opacity: '0.85',
           zIndex: '10',
           left: isMobile ? '80%' : '70%',
-          width: isMobile ? '9.6vh' : '16.8vh',
+          width: isMobile ? '9.6vh' : 'min(16.8vh, 12.8vw)',
           height: isMobile ? '16%' : '28%',
           bottom: isMobile ? '32%' : '12%'
         };
@@ -934,7 +917,7 @@
           opacity: '1',
           zIndex: '5',
           left: '50%',
-          width: isMobile ? '7.8vh' : '13.2vh',
+          width: isMobile ? '7.8vh' : 'min(13.2vh, 10vw)',
           height: isMobile ? '13%' : '22%',
           bottom: isMobile ? '32%' : '12%'
         };
@@ -990,22 +973,6 @@
   window.addEventListener('load', fitGhost);
   window.addEventListener('resize', fitGhost);
   fitGhost();
-
-  var kickerTextEl = document.querySelector('.hero-kicker-text');
-  var playBtnEl = document.querySelector('.play-btn');
-  function alignPlayButton() {
-    playBtnEl.style.marginLeft = '0px';
-    var kickerRight = kickerTextEl.getBoundingClientRect().right;
-    var playRight = playBtnEl.getBoundingClientRect().right;
-    var diff = playRight - kickerRight;
-    playBtnEl.style.marginLeft = (-diff) + 'px';
-  }
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(alignPlayButton);
-  }
-  window.addEventListener('load', alignPlayButton);
-  window.addEventListener('resize', alignPlayButton);
-  alignPlayButton();
 </script>
 <section class="explain" id="next-section">
   <div class="explain-inner">
@@ -1128,7 +1095,7 @@
 </section>
 <section class="info" id="details">
   <div class="info-inner">
-    <p class="info-kicker">October batch</p>
+    <p class="info-kicker">October 2026 batch</p>
     <h2 class="info-headline">October 17 is sold out.</h2>
     <!-- Repeat this .batch block for each additional upcoming playground -->
     <div class="batches">
@@ -1151,6 +1118,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
           <p class="batch-small-note">No payment needed yet.</p>
+          <p class="batch-small-note">Opens Messenger &middot; No Facebook? <a class="email-link" href="mailto:hello.kahnavelasco@gmail.com?subject=Voice%20Playground%20-%20Next%20Batch%20Inquiry">Email me instead.</a></p>
         </div>
       </div>
     </div>
@@ -1197,13 +1165,16 @@
     <h2 class="register-headline">Want to join the next one?</h2>
     <p class="register-body">New dates are coming. Voice Playground stays small so everyone gets time to actually practice.</p>
     <p class="register-price">
-      <span class="amount">&#8369;1,499 per person</span>
+      <span class="amount">&#8369;1,499</span>
+      <span class="limit">Previous pilot rate per person</span>
       <span class="limit">Limited to 6 participants per batch.</span>
     </p>
+    <p class="register-note">Next batch dates and pricing to be announced.</p>
     <a class="register-cta" href="https://m.me/theconfidenceplayground" target="_blank" rel="noopener noreferrer">
       I want in
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
     </a>
+    <p class="register-note">Opens Messenger &middot; No Facebook? <a class="email-link" href="mailto:hello.kahnavelasco@gmail.com?subject=Voice%20Playground%20-%20Next%20Batch%20Inquiry">Email me instead.</a></p>
   </div>
 </section>
 <footer class="site-footer">

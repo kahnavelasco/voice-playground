@@ -674,7 +674,51 @@
     color: var(--ink-soft);
   }
 
-  /* 15. Register / final CTA section */
+  /* 15. Private workshop inquiry section */
+  .private-inquiry {
+    position: relative;
+    width: 100%;
+    background-color: var(--cream);
+    padding: clamp(2.5rem, 6vw, 4rem) var(--section-pad-x);
+  }
+
+  .private-inquiry-inner { max-width: var(--content-max); margin: 0 auto; }
+
+  .private-heading {
+    margin: 0 0 var(--kicker-mb);
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(24px, 4vw, 38px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .private-body {
+    margin: 0 0 var(--kicker-mb);
+    max-width: 50ch;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(16px, 1.8vw, 18px);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  .private-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: clamp(15px, 1.8vw, 17px);
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: opacity 150ms;
+  }
+  .private-link:hover { opacity: 0.65; }
+
+  /* 16. Register / final CTA section */
   .register {
     position: relative;
     width: 100%;
@@ -779,7 +823,7 @@
     opacity: 0.75;
   }
 
-  /* 16. Footer */
+  /* 17. Footer */
   .site-footer {
     position: relative;
     width: 100%;
@@ -1157,6 +1201,14 @@
         <p>Because your payment reserves one of only six spots, payments are non-refundable. Please make sure you can attend before booking your spot.</p>
       </details>
     </div>
+  </div>
+</section>
+<section class="private-inquiry">
+  <div class="private-inquiry-inner">
+    <p class="info-kicker">Private &amp; corporate workshops</p>
+    <h2 class="private-heading">Voice Playground for your group.</h2>
+    <p class="private-body">Want a private Voice Playground for your team, company, community, or group?</p>
+    <a class="private-link" href="mailto:hello.kahnavelasco@gmail.com?subject=Private%20Voice%20Playground%20Inquiry">Inquire about a private workshop <span aria-hidden="true">&#8599;</span></a>
   </div>
 </section>
 <section class="register" id="register">

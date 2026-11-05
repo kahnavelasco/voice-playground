@@ -536,31 +536,29 @@
     border-bottom: 1px solid rgba(24, 21, 27, 0.15);
   }
 
-  .batch-when { display: flex; flex-direction: column; gap: 0.25rem; }
+  .batch-when { display: flex; flex-direction: column; gap: 0.3rem; }
   .batch-date {
     margin: 0;
     font-family: 'Anton', sans-serif;
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    font-size: clamp(19px, 3.4vw, 31px);
+    font-size: clamp(24px, 4.6vw, 37px);
     color: var(--ink);
   }
   .batch-time {
     margin: 0;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
-    font-size: clamp(17px, 2.9vw, 25px);
+    font-size: clamp(17px, 2.6vw, 21px);
     color: var(--ink-soft);
   }
 
-  .batch-facts { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; margin: 0; }
-  .batch-facts span {
+  .batch-facts {
+    margin: 0;
     font-family: 'Inter', sans-serif;
-    font-weight: 700;
-    font-size: clamp(15px, 2.4vw, 21px);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
+    font-weight: 500;
+    font-size: clamp(14px, 1.6vw, 16px);
+    color: var(--ink-soft);
     opacity: 0.7;
   }
 
@@ -572,27 +570,37 @@
     color: var(--ink-soft);
   }
 
-  .batch-divider {
-    width: 100%;
-    border: none;
-    border-top: 1px solid rgba(24, 21, 27, 0.15);
-    margin: clamp(0.5rem, 2vw, 1rem) 0 0;
+  .batch-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem;
+  }
+  .batch-price {
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: clamp(17px, 3.4vw, 28px);
+    color: var(--pink-deep);
+  }
+  .batch-price-label {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: clamp(14px, 1.6vw, 16px);
+    color: var(--ink-soft);
+  }
+
+  .peso-symbol {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    letter-spacing: normal;
+    margin-right: 0.06em;
   }
 
   .batch-inquiry {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    padding-top: clamp(0.5rem, 2vw, 1rem);
-  }
-
-  .batch-inquiry-heading {
-    margin: 0;
-    font-family: 'Anton', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    font-size: clamp(19px, 3.4vw, 31px);
-    color: var(--ink);
   }
 
   .batch-small-note {
@@ -761,7 +769,7 @@
   }
 
   .register-price {
-    margin: 0 0 clamp(0.75rem, 2vw, 1.25rem);
+    margin: 0 0 clamp(1.75rem, 4vw, 2.25rem);
     font-family: 'Anton', sans-serif;
     text-transform: uppercase;
     letter-spacing: -0.01em;
@@ -1139,29 +1147,27 @@
 </section>
 <section class="info" id="details">
   <div class="info-inner">
-    <p class="info-kicker">October 2026 batch</p>
-    <h2 class="info-headline">October 17 is sold out.</h2>
+    <p class="info-kicker">Voice Playground &middot; Batch 4</p>
+    <h2 class="info-headline">Ready to play?</h2>
     <!-- Repeat this .batch block for each additional upcoming playground -->
     <div class="batches">
       <div class="batch">
         <div class="batch-when">
-          <p class="batch-date">October 17, Saturday</p>
-          <p class="batch-time">2:00&ndash;5:00 PM (PH time)</p>
+          <p class="batch-date">Nov 14, 2026</p>
+          <p class="batch-time">Saturday &middot; 2:00&ndash;5:00 PM (PH time)</p>
         </div>
-        <div class="batch-facts">
-          <span>Live on Zoom</span>
-          <span>3 hours</span>
-          <span>Max 6 participants</span>
+        <p class="batch-facts">Live on Zoom &middot; 3 hours &middot; Max 6 participants</p>
+        <div class="batch-meta">
+          <span class="batch-price"><span class="peso-symbol">&#8369;</span>1,999</span>
+          <span class="batch-price-label">per person</span>
         </div>
-        <hr class="batch-divider">
         <div class="batch-inquiry">
-          <p class="batch-inquiry-heading">Want in on the next one?</p>
-          <p class="batch-note">New dates are coming! Message me to ask about the next Voice Playground batch.</p>
+          <p class="batch-note">Want to join? Message me to check availability and get payment details.</p>
           <a class="batch-cta" href="https://m.me/theconfidenceplayground" target="_blank" rel="noopener noreferrer">
             I want in
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <p class="batch-small-note">No payment needed yet.</p>
+          <p class="batch-small-note">Your spot is confirmed once payment is received.</p>
           <p class="batch-small-note">Opens Messenger &middot; No Facebook? <a class="email-link" href="mailto:hello.kahnavelasco@gmail.com?subject=Voice%20Playground%20-%20Next%20Batch%20Inquiry">Email me instead.</a></p>
         </div>
       </div>
@@ -1215,13 +1221,12 @@
   <div class="register-inner">
     <p class="register-kicker">Your turn.</p>
     <h2 class="register-headline">Want to join the next one?</h2>
-    <p class="register-body">New dates are coming. Voice Playground stays small so everyone gets time to actually practice.</p>
+    <p class="register-body">Join us on November 14 (Saturday), 2&ndash;5 PM! Voice Playground stays small so everyone gets time to actually practice.</p>
     <p class="register-price">
-      <span class="amount">&#8369;1,499</span>
-      <span class="limit">Previous pilot rate per person</span>
+      <span class="amount"><span class="peso-symbol">&#8369;</span>1,999</span>
+      <span class="limit">Per person</span>
       <span class="limit">Limited to 6 participants per batch.</span>
     </p>
-    <p class="register-note">Next batch dates and pricing to be announced.</p>
     <a class="register-cta" href="https://m.me/theconfidenceplayground" target="_blank" rel="noopener noreferrer">
       I want in
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
